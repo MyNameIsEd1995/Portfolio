@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Eduardo Ribeiro | Portfolio</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style>
+    .navbar { margin-bottom: 0; border-radius: 0; }
+    footer { background-color: #f2f2f2; padding: 25px; }
+    section { padding: 50px 0; }
+    .project-card { margin-bottom: 25px; }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#home">Portfolio</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://github.com/YOURUSERNAME" target="_blank">
+          <span class="glyphicon glyphicon-link"></span> GitHub
+        </a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- offset for fixed navbar -->
+<div style="height:50px;"></div>
+
+<section id="home" class="jumbotron">
+  <div class="container text-center">
+    <h1>Eduardo Ribeiro</h1>
+    <p>Hydrographic / Geospatial | GIS | Python | Sonar data</p>
+    <p>
+      <a class="btn btn-primary btn-lg" href="#work">See my work</a>
+    </p>
+  </div>
+</section>
+
+<section id="about" class="container text-left">
+  <h2>About</h2>
+  <p>
+    Hello there! My name is Eduardo and I am a marine data processor and GIS enthusiast.
+    I recently started getting tired of following the same workflows over and over on GIS and other offshore software,
+    so I started to learn some extra tools such as postgresql and python to make my life easier. I tend to brainstorm by
+    myself and come up with some ideas on how to apply the things I have learned, so I guess this repository is exactly
+    that.
+  </p>
+</section>
+
+<section id="work" class="container-fluid bg-3 text-left">
+  <h2>Some of my Work</h2><br>
+
+  <div class="row">
+    <div class="col-sm-3 project-card">
+      <p><strong>Deriving Sound Speed from open source CTD profiles</strong><br>Small individual project with open
+       source data in California</p>
+      <img src="images\UNESCO_Derived.jpg" class="img-responsive" style="width:100%" alt="Project 1">
+      <p><a href="https://github.com/YOURUSERNAME/YOURREPO" target="_blank">Repo / details</a></p>
+    </div>
+
+    <div class="col-sm-3 project-card">
+      <p><strong>Project 2</strong><br>QGIS map series / cartography</p>
+      <img src="https://placehold.it/400x250?text=Project+2" class="img-responsive" style="width:100%" alt="Project 2">
+      <p><a href="#" target="_blank">Link</a></p>
+    </div>
+
+    <div class="col-sm-3 project-card">
+      <p><strong>Project 3</strong><br>Python automation / QC</p>
+      <img src="https://placehold.it/400x250?text=Project+3" class="img-responsive" style="width:100%" alt="Project 3">
+      <p><a href="#" target="_blank">Link</a></p>
+    </div>
+
+    <div class="col-sm-3 project-card">
+      <p><strong>Project 4</strong><br>PostGIS + analysis</p>
+      <img src="https://placehold.it/400x250?text=Project+4" class="img-responsive" style="width:100%" alt="Project 4">
+      <p><a href="#" target="_blank">Link</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="container text-center">
+  <h2>Contact</h2>
+  <p>Email: <a href="mailto:youremail@example.com">youremail@example.com</a></p>
+  <p>LinkedIn: <a href="https://www.linkedin.com/in/YOURPROFILE" target="_blank">your profile</a></p>
+</section>
+
+<footer class="container-fluid text-center">
+  <p>© <span id="year"></span> Eduardo Ribeiro</p>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
