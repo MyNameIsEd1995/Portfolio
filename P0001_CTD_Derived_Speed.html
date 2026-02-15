@@ -306,7 +306,6 @@
             <pre class="language-python"><code class="language-python">from pyproj import Transformer
 import csv
 
-# WGS84 (lat/lon) -> UTM Zone 11N (meters)
 origin_crs = "EPSG:4326"
 target_crs = "EPSG:32611"
 transformer = Transformer.from_crs(origin_crs, target_crs, always_xy=True)
