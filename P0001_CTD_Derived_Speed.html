@@ -12,205 +12,675 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-  <!-- Prism -->
+  <!-- Prism syntax highlighting (CSS + JS) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 
-  <!-- Font -->
+  <!-- (Prop 3) Optional better font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* =========================================================
+       Propositions 1–5 applied:
+       1) Modern look via CSS-only polish (cards, shadows, colors)
+       2) Compact spacing (reduced default margins)
+       3) Optional better font (Inter)
+       4) Professional polish (navbar, max-width)
+       5) Structural correctness (fixed missing closing </div>)
+       ========================================================= */
+
+    :root{
+      --bg: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --soft: #f8fafc;
+      --shadow: 0 8px 24px rgba(0,0,0,.06);
+    }
+
     body{
-      padding-top:70px;
-      font-family: Inter, sans-serif;
-      background:#ffffff;
-      color:#1f2937;
+      padding-top: 70px;
+      color: var(--text);
+      background: var(--bg);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    .container{ max-width:980px; }
+    /* (Prop 4) Limit line length for readability */
+    .container{ max-width: 980px; }
 
-    section{ padding:28px 0; }
+    /* (Prop 2) Compact vertical rhythm */
+    section{ padding: 28px 0; }
+    p{ margin: 0 0 10px; }
+    ul{ margin-bottom: 10px; }
+    hr{ border-top: 1px solid var(--border); margin: 24px 0; }
 
-    h1,h2,h3{ font-weight:700; }
+    h1{ font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; }
+    h2{ font-weight: 700; margin-top: 10px; padding-top: 6px; }
+    h3{ font-weight: 700; margin-top: 0; }
 
-    hr{ margin:25px 0; }
+    .muted{ color: var(--muted); }
 
+    /* (Prop 1) Hero image card feel */
     .hero-img{
-      border-radius:12px;
-      box-shadow:0 10px 25px rgba(0,0,0,.08);
-      border:1px solid #e5e7eb;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
     }
 
+    /* --- Auto-numbered steps (kept) + (Prop 1) step cards --- */
+    .steps{ counter-reset: step; }
     .step{
-      margin-bottom:25px;
-      padding:20px;
-      border:1px solid #e5e7eb;
-      border-radius:12px;
-      box-shadow:0 4px 14px rgba(0,0,0,.04);
+      counter-increment: step;
+      margin-bottom: 22px;
+      padding: 18px 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,.03);
+    }
+    .step h3:before{
+      content: counter(step) ") ";
+      font-weight: 800;
+      color: #111827;
+    }
+    .step img{ margin: 12px 0; }
+
+    /* --- Collapsible code block (details/summary) --- */
+    .code-toggle summary{
+      cursor: pointer;
+      font-weight: 700;
+      margin: 8px 0;
+      outline: none;
+      color: #111827;
+    }
+    .code-toggle summary:hover{ text-decoration: none; opacity: .85; }
+    .code-toggle[open] summary{ margin-bottom: 10px; }
+
+    /* --- Prism code block styling (Prop 1) --- */
+    pre[class*="language-"]{
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      overflow-x: auto;
+      margin: 10px 0 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
     }
 
+    /* --- Explanation box (Prop 1) --- */
+    .explain{
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 10px;
+    }
+    .explain .title{
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .explain ul{ margin-bottom: 0; }
+
+    /* ===== 2x2 image grid + hover polish (Prop 1) ===== */
+    .map-grid .thumb{
+      margin-bottom: 10px;
+      cursor: zoom-in;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .map-grid .thumb:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.10);
+    }
+
+    /* (Prop 1) Panel polish to match cards */
+    .panel{
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 2px 14px rgba(0,0,0,.04);
+      overflow: hidden;
+    }
+    .panel-default > .panel-heading{
+      background: var(--soft);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* (Prop 4) Navbar polish */
     .navbar-inverse{
-      background:#111827;
-      border-color:#111827;
+      background: #111827;
+      border-color: #111827;
     }
-
     .navbar-inverse .navbar-brand,
     .navbar-inverse .navbar-nav>li>a{
-      color:#e5e7eb;
+      color: #e5e7eb;
+    }
+    .navbar-inverse .navbar-nav>li>a:hover{
+      color: #ffffff;
     }
 
     footer{
-      background:#f8fafc;
-      padding:18px;
-      margin-top:30px;
-      border-top:1px solid #e5e7eb;
+      background: var(--soft);
+      border-top: 1px solid var(--border);
+      padding: 18px;
+      margin-top: 22px;
     }
 
-    pre{
-      border-radius:10px;
-      border:1px solid #e5e7eb;
-      font-size:13px;
+    /* Modal polish */
+    #imgModal .modal-dialog{
+      width: 95%;
+      max-width: 1100px;
     }
-
-    .thumb{
-      border-radius:10px;
-      box-shadow:0 6px 20px rgba(0,0,0,.08);
-      margin-bottom:10px;
-      cursor:pointer;
+    #imgModal .modal-content{
+      border-radius: 14px;
+      overflow: hidden;
     }
-
+    #imgModal .modal-header{
+      border-bottom: 1px solid var(--border);
+      background: var(--soft);
+    }
     #imgModalImg{
-      width:100%;
-      border-radius:10px;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+    #imgModalCaption{
+      margin-top: 10px;
+      color: var(--muted);
     }
   </style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="index.html">← Back</a>
+      <a class="navbar-brand" href="./index.html">← Back</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
-      <li>
-        <a href="https://github.com/eduardopcribeiro/Portfolio" target="_blank">
-          GitHub Repo
-        </a>
-      </li>
+      <li><a href="https://github.com/YOURUSERNAME/YOURREPO" target="_blank">Repo</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- ================= CONTENT ================= -->
 <section class="container">
+  <h1>Deriving Sound Speed from Open-Source CTD Profiles</h1>
+  <p class="muted">
+    Tools: Python • (optional) Postgres/PostGIS • QGIS • Sound-speed equations (UNESCO / Del Grosso / Leroy / Mackenzie)
+  </p>
 
-<h1>Deriving Sound Speed from Open-Source CTD Profiles</h1>
+  <img src="images/UNESCO_Derived.jpeg" class="img-responsive hero-img" alt="Project result map">
 
-<p><strong>Tools:</strong> Python • PostgreSQL • QGIS • Multiple Sound-Speed Equations</p>
+  <hr>
 
-<img src="images/UNESCO_Derived.jpeg" class="img-responsive hero-img">
+  <h2>Goal</h2>
+  <p>
+    For this project I wanted to process a large number of CTD files in CSV format, remove all irrelevant data
+    and calculate the sound speed in the water column based on several sound speed formulas:
+    Mackenzie, UNESCO, Del Grosso and Leroy.
+  </p>
+  <p>
+    We can divide this project into three phases:
+  </p>
+  <ul>
+    <li>PostgreSQL ETL workflow</li>
+    <li>Python for sound speed equations and geospatial data generation</li>
+    <li>Chart making in QGIS</li>
+  </ul>
 
-<hr>
+  <hr>
 
-<h2>Goal</h2>
-<p>
-Process large CTD datasets, clean them via SQL, compute sound speed using multiple
-equations (UNESCO, Del Grosso, Leroy, Mackenzie), and generate geospatial visualizations.
-</p>
+  <h2>Workflow</h2>
 
-<hr>
+  <!-- Wrap all steps in .steps for auto-numbering -->
+  <div class="steps">
 
-<h2>Workflow</h2>
+    <div class="step">
+  <h3>Data Cleaning in SQL</h3>
 
-<div class="step">
-<h3>1. Data Cleaning in PostgreSQL</h3>
-<p>
-Raw CTD files were reshaped and cleaned in Postgres.
-</p>
+  <p>
+    The downloaded CTD files contained many irrelevant columns. The easiest way for me to clean/reshape the data
+    was to load everything into Postgres and format it there.
+  </p>
+
+  <p>
+    Importing the CTD profile was returning empty columns in Postgres, so I created an “all text” table as a
+    placeholder before typing the cleaned table correctly:
+  </p>
+
+  <ul>
+    <li>Create a placeholder table with data type <code>TEXT</code> for all columns</li>
+    <li>Create a new empty table with the correct column names and data types</li>
+    <li>Import data into the new table</li>
+    <li>Join/select relevant columns and export the cleaned dataset</li>
+  </ul>
+
+  <div id="ctdCarousel" class="carousel slide" data-ride="carousel">
+
+    <div class="carousel-inner">
+      <div class="item active">
+        <img src="images/Unprocessed_CTD.jpeg" class="img-responsive hero-img" alt="RAW CTD CSV file">
+      </div>
+
+      <div class="item">
+        <img src="images/Processed_CTD.jpeg" class="img-responsive hero-img" alt="Processed CTD CSV file">
+      </div>
+    </div>
+
+    <a class="left carousel-control" href="#ctdCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+
+    <a class="right carousel-control" href="#ctdCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+
+  </div>
+
+  <p class="muted">Example of a CTD profile before and after processing</p>
 </div>
 
-<div class="step">
-<h3>2. Projection to UTM</h3>
 
-<pre><code class="language-python">
-from pyproj import Transformer
+    <div class="step">
+      <h3>Python (Projection + geospatial fields)</h3>
 
+      <p>
+        The CTD files were originally positioned in latitude and longitude.
+        I converted these to a projected coordinate system using the
+        <code>Transformer</code> Since projected coordinates make distance-based steps (interpolation/QC) more robust.
+      </p>
+
+      <div class="row">
+        <!-- LEFT: Collapsible highlighted code -->
+        <div class="col-sm-7">
+          <details class="code-toggle">
+            <summary>Show code (WGS84 → UTM)</summary>
+
+            <pre class="language-python"><code class="language-python">from pyproj import Transformer
+import csv
+
+# WGS84 (lat/lon) -> UTM Zone 11N (meters)
 origin_crs = "EPSG:4326"
 target_crs = "EPSG:32611"
-
 transformer = Transformer.from_crs(origin_crs, target_crs, always_xy=True)
-e, n = transformer.transform(lon, lat)
-</code></pre>
 
-</div>
+for i in ctd_files:
+    with open(i, "r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
 
-<div class="step">
-<h3>3. Sound Speed Equations</h3>
-<p>
-Computed sound speed using:
+        if not rows:
+            print("Empty file:", i)
+            continue
+
+        for r in rows:
+            lon = float(r["longitude"])
+            lat = float(r["latitude"])
+            e, n = transformer.transform(lon, lat)
+
+            r["easting"] = e
+            r["northing"] = n</code></pre>
+          </details>
+        </div>
+
+        <!-- RIGHT: Inline explanations -->
+        <div class="col-sm-5">
+          <div class="explain">
+            <div class="title">Notes</div>
+            <ul>
+              <li><strong>Origin CRS</strong> = EPSG 4326 WGS84 (degrees).</li>
+              <li><strong>Target CRS</strong> = EPSG 32611 UTM Zone 11N (meters).</li>
+              <li><code>always_xy=True</code> forces the order <em>lon, lat</em>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <h3>Sound speed calculation (multiple equations)</h3>
+
+      <p>
+        With cleaned CTD fields (T, S, pressure/depth), I computed sound speed using multiple equations
+        and exported outputs for comparison.
+      </p>
+
+      <ul>
+        <li>Compute sound speed using multiple formulas (UNESCO, Del Grosso, Leroy, Mackenzie).</li>
+        <li>Export results per cast and/or per formula to compare differences.</li>
+      </ul>
+
+      <details class="code-toggle">
+        <summary>CLICK ME</summary>
+
+        <div class="explain">
+          <div class="title">Formulas Used</div>
+          <ul>
+            <li><strong>MacKenzie (1981)</strong> — Takes temperature, salinity and depth</li>
+            <li><strong>UNESCO (Chen &amp; Millero, 1977 / 1983)</strong> — Takes temperature, salinity and pressure</li>
+            <li><strong>Del Grosso (1974)</strong> — Takes temperature, salinity and pressure</li>
+            <li><strong>Leroy (2008)</strong> — Takes temperature, salinity, pressure and latitude.</li>
+          </ul>
+        </div>
+
+       <!-- Drop this inside your Step 3 ("Sound speed calculation") where the current single <pre> block is -->
+
+<p class="muted" style="margin-top: 10px; margin-bottom: 8px;">
+  Click to expand each equation:
 </p>
-<ul>
-<li>UNESCO</li>
-<li>Del Grosso</li>
-<li>Leroy</li>
-<li>Mackenzie</li>
-</ul>
-</div>
 
-<div class="step">
-<h3>4. Interpolation & GeoTIFF Generation</h3>
+<details class="code-toggle">
+  <summary>MacKenzie (1981)</summary>
+  <pre class="language-python"><code class="language-python"># 1) MacKenzie (1981) — T (°C), S (PSU), z (m)
+# c = 1448.96 + 4.591T - 5.304e-2 T^2 + 2.374e-4 T^3
+#     + 1.340(S-35) + 1.630e-2 z + 1.675e-7 z^2
+#     - 1.025e-2 T(S-35) - 7.139e-13 T z^3
 
-<div class="row">
-  <div class="col-sm-6">
-    <img src="images/UNESCO_Derived.jpeg" class="img-responsive thumb" onclick="openImgModal(this)">
-  </div>
-  <div class="col-sm-6">
-    <img src="images/DelGrosso_Derived.jpeg" class="img-responsive thumb" onclick="openImgModal(this)">
-  </div>
-</div>
+def c_mackenzie(T, S, z):
+    return (
+        1448.96
+        + 4.591*T
+        - 5.304e-2*(T**2)
+        + 2.374e-4*(T**3)
+        + 1.340*(S - 35.0)
+        + 1.630e-2*z
+        + 1.675e-7*(z**2)
+        - 1.025e-2*T*(S - 35.0)
+        - 7.139e-13*T*(z**3)
+    )</code></pre>
+</details>
 
-</div>
+<details class="code-toggle">
+  <summary>UNESCO</summary>
+  <pre class="language-python"><code class="language-python">def sound_speed_unesco(T, S, P):
+    Cw = (1402.388 +
+          5.03830 * T -
+          5.81090e-2 * T**2 +
+          3.3432e-4 * T**3 -
+          1.47797e-6 * T**4 +
+          3.1419e-9 * T**5)
 
-<hr>
+    A = (1.389 -
+         1.262e-2 * T +
+         7.164e-5 * T**2 +
+         2.006e-6 * T**3 -
+         3.21e-8 * T**4)
 
-<h2>Links</h2>
-<ul>
-<li><a href="https://github.com/eduardopcribeiro/Portfolio" target="_blank">GitHub Repository</a></li>
-<li><a href="index.html">Back to Homepage</a></li>
-</ul>
+    B = (9.4742e-5 -
+         1.2580e-5 * T -
+         6.4885e-8 * T**2 +
+         1.0507e-8 * T**3 -
+         2.0122e-10 * T**4)
 
+    D = (-3.9064e-7 +
+         9.1061e-9 * T -
+         1.6009e-10 * T**2 +
+         7.994e-12 * T**3)
+
+    Cp = Cw + A * P + B * P**2 + D * P**3
+
+    # Salinity correction
+    E = (1.727e-3 -
+         7.9836e-6 * P)
+
+    F = (-1.483e-3 +
+         1.730e-5 * T -
+         1.054e-7 * T**2 +
+         2.7e-10 * T**3)
+
+    G = (7.347e-5 -
+         1.89e-7 * T -
+         2.135e-10 * T**2)
+
+    H = (1.0e-6 * (P**2))
+
+    Cs = Cp + (E + F * T + G * T**2 + H) * (S - 35)
+
+    # Final salinity quadratic term
+    c = Cs + (S - 35) * (1.34e-3)
+
+    return c</code></pre>
+</details>
+
+<details class="code-toggle">
+  <summary>Del Grosso</summary>
+  <pre class="language-python"><code class="language-python">def sound_speed_delgrosso(T, S, P_dbar):
+    P = P_dbar / 10.0
+
+    C000 = 1449.392  #BASELINE FOR SEAWATER)
+
+    A = (5.01109398873 * T
+         - 0.055094684317 * T**2
+         + 0.00022153596924 * T**3
+         + 0.000022013775298 * T**4
+         + 0.00000021968993381 * T**5
+         + (0.13325966638 + 0.00011785891548 * T + 0.00000052538024123 * T**2) * (S - 35))
+
+    B = (0.016483797788
+         + 0.000015722874847 * T
+         + 0.00000014663726837 * T**2
+         - 0.000000000011241011236 * T**3
+         + (-0.000000000069136518571 + 0.00000000000008067785976 * T) * (S - 35))
+
+    D = (-0.0000000000002951250273
+         + 0.000000000000000195166938 * T
+         + 0.0000000000000000027271014 * T**2)
+
+    return C000 + A + B * P + D * P**2</code></pre>
+</details>
+
+<details class="code-toggle">
+  <summary>Leroy (2008)</summary>
+  <pre class="language-python"><code class="language-python">def sound_speed_leroy2008(T, S, Z, lat):
+
+    c = (
+        1402.5
+        + 5.0 * T
+        - 5.44e-2 * T**2
+        + 2.1e-4 * T**3
+        + 1.33 * S
+        - 1.23e-2 * S * T
+        + 8.7e-5 * S * T**2
+        + 1.56e-2 * Z
+        + 2.55e-7 * Z**2
+        - 7.3e-12 * Z**3
+        + 1.2e-6 * Z * (lat - 45.0)
+        - 9.5e-13 * T * Z**3
+        + 3.0e-7 * T**2 * Z
+        + 1.43e-5 * S * Z
+    )
+    return c</code></pre>
+</details>
+
+      </details>
+    </div>
+
+    <div class="step">
+      <h3>Interpolation and Geotiff generation</h3>
+
+      <p>
+        To generate the geotiffs for this sample data I used a linear Delauney Triangulation, while it does work by itself,
+        I found that applying a Gaussian filter helped smooth hard boundaries in the interpolated data.
+      </p>
+
+      <p>
+        One can correlate currents
+        of cold water with lower speed values, but most importantly, it allows me to visually compare sound speed values
+        between the several proposed equations at different depths. Which realistically, was the thing I was the most interested in.
+      </p>
+
+      <div class="panel panel-default">
+        <div class="panel-heading text-center">
+          <strong>Sound Speed at 20 meters of depth</strong>
+        </div>
+
+        <div class="panel-body">
+          <p class="text-center muted" style="margin-bottom: 15px;">
+            Comparison between UNESCO, Del Grosso, Leroy and Mackenzie sound speed formulations
+          </p>
+
+          <!-- ===== TIFF 2x2 GRID ===== -->
+          <div class="row map-grid">
+
+            <div class="col-sm-6">
+              <img src="images/UNESCO_Derived.jpeg"
+                   class="img-responsive thumb"
+                   alt="UNESCO sound speed map"
+                   data-title="UNESCO Equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">UNESCO Equation</p>
+            </div>
+
+            <div class="col-sm-6">
+              <img src="images/DelGrosso_Derived.jpeg"
+                   class="img-responsive thumb"
+                   alt="Del Grosso sound speed map"
+                   data-title="Del Grosso Equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Del Grosso Equation</p>
+            </div>
+
+            <!-- Force new row after 2 columns (Bootstrap 3 fix) -->
+            <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+
+            <div class="col-sm-6">
+              <img src="images/Leroy_Derived.jpeg"
+                   class="img-responsive thumb"
+                   alt="Leroy sound speed map"
+                   data-title="Leroy Equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Leroy Equation</p>
+            </div>
+
+            <div class="col-sm-6">
+              <img src="images/MacKenzie_Derived.jpeg"
+                   class="img-responsive thumb"
+                   alt="Mackenzie sound speed map"
+                   data-title="Mackenzie Equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Mackenzie Equation</p>
+            </div>
+
+          </div> <!-- /.row map-grid -->
+        </div> <!-- /.panel-body -->
+      </div> <!-- /.panel -->
+    </div>
+
+    <div class="step">
+      <h3>Results & QC</h3>
+
+      <p>
+        Looking at the models, there is a visible difference between the results obtained for each equation, more
+        specifically between the Del Grosso and the UNESCO equations, while MacKenzie and Leroy share considerable commonalities.
+      </p>
+      <p>
+        And as expected, if we interpolate the temperature values for the same depth interval, we can observe that lower temperatures
+        correlate with lower sound speeds. More specifically in the NE corner of the area, which might suggest an inlet of cold water.
+      </p>
+      <p>
+        A bivariate plot between water temperature and sound speed is a good way to show the correlation between these
+        two parameters, blue colors indicate lower speeds and lower water temperatures while dark colors indicate darker colors and higher soudnspeeds.
+      </p>
+      <p>
+        <img src="images/Bivariate_Map.jpeg" class="featured-img img-responsive" alt="CTD derived sound speed map">
+      </p>
+
+        <div class="row map-grid">
+
+            <div class="col-sm-6">
+              <img src="images/CalCOFI_ctd_data_table_UTM_Converted_UNESCO_cast2107_010u.png"
+                   class="img-responsive thumb"
+                   alt="Plot of Sound Speed using UNESCO's equation"
+                   data-title="Plot of Sound Speed using UNESCO's equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Plot of Sound Speed using UNESCO's equation</p>
+            </div>
+
+            <div class="col-sm-6">
+              <img src="images/CalCOFI_ctd_data_table_UTM_Converted_DelGrosso_cast2107_010u.png"
+                   class="img-responsive thumb"
+                   alt="Plot of Sound Speed using Del Grosso's equation"
+                   data-title="Plot of Sound Speed using Del Grosso's equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Plot of Sound Speed using Del Grosso's equation</p>
+            </div>
+
+            <!-- Force new row after 2 columns (Bootstrap 3 fix) -->
+            <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+
+            <div class="col-sm-6">
+              <img src="images/CalCOFI_ctd_data_table_UTM_Converted_Leroy2008_cast2107_010u.png"
+                   class="img-responsive thumb"
+                   alt="LPlot of Sound Speed using Leroy's equation"
+                   data-title="Plot of Sound Speed using Leroy's equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Plot of Sound Speed using Leroy's equation</p>
+            </div>
+
+            <div class="col-sm-6">
+              <img src="images/CalCOFI_ctd_data_table_UTM_Converted_Mackenzie_cast2107_010u.png"
+                   class="img-responsive thumb"
+                   alt="Plot of Sound Speed using MacKenzie's equation"
+                   data-title="Plot of Sound Speed using MacKenzie's equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Plot of Sound Speed using MacKenzie's equation</p>
+            </div>
+    </div>
+
+  </div><!-- /.steps -->
+
+  <hr>
+
+  <h2>Links</h2>
+  <ul>
+    <li><a href="https://github.com/YOURUSERNAME/YOURREPO" target="_blank">GitHub repository</a></li>
+    <li><a href="./index.html">Back to homepage</a></li>
+  </ul>
 </section>
 
-<!-- ================= FOOTER ================= -->
-<footer class="container-fluid text-center">
-  <p>© <span id="year"></span> Eduardo Ribeiro</p>
-</footer>
+
 
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
-<!-- ================= MODAL ================= -->
-<div id="imgModal" class="modal fade">
-  <div class="modal-dialog">
+<!-- ===== Image Zoom Modal ===== -->
+<div id="imgModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="imgModalLabel">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="imgModalLabel">Map</h4>
+      </div>
+
       <div class="modal-body">
-        <img id="imgModalImg">
+        <img id="imgModalImg" src="" alt="Zoomed map">
+        <p id="imgModalCaption" class="text-center"></p>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-function openImgModal(img){
-  document.getElementById("imgModalImg").src = img.src;
-  $('#imgModal').modal('show');
-}
+  function openImgModal(imgEl) {
+    var src = imgEl.getAttribute("src");
+    var title = imgEl.getAttribute("data-title") || imgEl.getAttribute("alt") || "Map";
+
+    document.getElementById("imgModalImg").src = src;
+    document.getElementById("imgModalLabel").textContent = title;
+    document.getElementById("imgModalCaption").textContent = title;
+
+    $('#imgModal').modal('show');
+  }
 </script>
 
 </body>
